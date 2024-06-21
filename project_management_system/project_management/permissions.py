@@ -1,6 +1,6 @@
 # permissions.py
 from rest_framework.permissions import BasePermission, SAFE_METHODS
-from .models import Project, ProjectPermission
+from .models import Project, ProjectPermission,Task
 from django.conf import settings
 
 
