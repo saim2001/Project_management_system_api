@@ -42,9 +42,17 @@ class HasProjectPermission(BasePermission):
 
         if request.method in SAFE_METHODS:
             return True
+        
+        if request.method == 'DELETE':
+            task = Task.objects.get(id=view.kwargs['pk'])
+            project_id = task.project.id
+        else:
 
-    # For other actions, check for project-specific permissions
-        project_id = request.data['project']
+            try:
+                project_id = request.data['project']
+            except:
+                project_id = view.kwargs['pk']
+        
 
         try:
             print(project_id)
@@ -67,7 +75,6 @@ class HasProjectPermission(BasePermission):
         if request.method == 'DELETE' and permission.can_delete:
             return True
         return False
-
 
 class CanAddPermissions(BasePermission):
     def has_permission(self, request, view):
